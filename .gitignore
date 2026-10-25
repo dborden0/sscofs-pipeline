@@ -1,7 +1,5 @@
 # Output directories
 dist/
-accuracy/
-currents/
 
 # Python artifacts
 __pycache__/

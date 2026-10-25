@@ -91,7 +91,7 @@ jobs:
         run: |
           mkdir -p currents
           cp ./dist/currents/last_cycle.txt currents/last_cycle.txt
-          git add currents/last_cycle.txt
+          git add -f currents/last_cycle.txt
           # --cached so this also fires the first time, when the file is still
           # untracked (plain `git diff` ignores untracked files).
           if git diff --cached --quiet -- currents/last_cycle.txt; then
