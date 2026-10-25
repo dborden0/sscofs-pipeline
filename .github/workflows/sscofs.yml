@@ -63,6 +63,19 @@ jobs:
             ls -R ./dist
             exit 0
           fi
+
+          # Clean inputs: remove accidental carriage returns, whitespace, quotes, and slashes
+          export R2_ENDPOINT=$(echo -n "$R2_ENDPOINT" | tr -d '\r\n"' | sed "s/^'//" | sed "s/'$//" | xargs | sed 's|/*$||')
+          export AWS_ACCESS_KEY_ID=$(echo -n "$AWS_ACCESS_KEY_ID" | tr -d '\r\n"' | sed "s/^'//" | sed "s/'$//" | xargs)
+          export AWS_SECRET_ACCESS_KEY=$(echo -n "$AWS_SECRET_ACCESS_KEY" | tr -d '\r\n"' | sed "s/^'//" | sed "s/'$//" | xargs)
+          export R2_BUCKET=$(echo -n "$R2_BUCKET" | tr -d '\r\n"' | sed "s/^'//" | sed "s/'$//" | xargs | sed 's|^s3://||' | sed 's|/*$||')
+
+          echo "Diagnosing R2 configuration (without revealing secret values):"
+          echo "  Endpoint format: $R2_ENDPOINT"
+          echo "  Target Bucket: $R2_BUCKET"
+          echo "  Access Key ID length: ${#AWS_ACCESS_KEY_ID} chars"
+          echo "  Secret Access Key length: ${#AWS_SECRET_ACCESS_KEY} chars"
+
           aws s3 cp ./dist/currents/ "s3://$R2_BUCKET/currents/" \
             --recursive --endpoint-url "$R2_ENDPOINT" \
             --cache-control "public, max-age=300, s-maxage=21600"
