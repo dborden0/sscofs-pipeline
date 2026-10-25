@@ -1,0 +1,17 @@
+# Output directories
+dist/
+accuracy/
+currents/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# OS artifacts
+.DS_Store
+Thumbs.db

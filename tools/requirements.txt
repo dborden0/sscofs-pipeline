@@ -1,0 +1,14 @@
+# Precompute job (tools/extract_sscofs.py) and centerline builder
+# (tools/build_channel_points.py --snap-mask). Runs in CI on Python 3.12, no
+# bundle-size limit, so we read OPeNDAP via xarray instead of hand-parsing DAP.
+#
+# pydap 3.5 changed its API; xarray's pydap backend needs to be recent enough to
+# match it. These lower bounds are the combination verified end to end against
+# NOAA SSCOFS on 2026-09-03.
+xarray>=2025.1.0
+pydap>=3.5.0
+numpy>=2.1.0
+# Fallback when the OPeNDAP server is down: byte-range reads of the same files
+# on NOAA's S3 mirror (S3Source in extract_sscofs.py).
+h5py>=3.11
+fsspec[http]>=2024.6.0

@@ -1,0 +1,93 @@
+name: SSCOFS upriver currents
+
+# Precompute upriver surface currents from the NOAA SSCOFS regulargrid product
+# and publish one small static JSON file. See
+# plans/sscofs-upriver-currents-precompute.md.
+
+on:
+  schedule:
+    # ~3h50m after each cycle (03/09/15/21 UTC): f072 lands on NOAA's S3 mirror
+    # ~3h40m after the cycle. Earlier runs just get the previous cycle.
+    - cron: "50 0,6,12,18 * * *"
+  workflow_dispatch:
+    inputs:
+      cycle:
+        description: "Force a cycle (YYYYMMDD.tCCz); blank = probe latest complete"
+        required: false
+        default: ""
+
+concurrency:
+  group: sscofs
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # only to commit currents/last_cycle.txt
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r tools/requirements.txt
+
+      - name: Extract centerline currents
+        run: |
+          python tools/extract_sscofs.py \
+            --out ./dist \
+            --cycle "${{ github.event.inputs.cycle }}"
+
+      - name: Publish to CDN
+        # Host knowledge lives only here, never in the Python. Swap this step for
+        # rclone / aws s3 cp / wrangler without touching extract_sscofs.py.
+        # Serve behind a domain you own (e.g. https://data.<yourdomain>/) so a
+        # host migration is a DNS change, not a broken APK. See the Portability
+        # section of the plan.
+        env:
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          # R2 speaks the S3 API with SigV4 and a placeholder region.
+          AWS_DEFAULT_REGION: auto
+          # Newer AWS CLI adds request checksums R2 rejects on some buckets.
+          AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+          AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+        run: |
+          if [ -z "$R2_ENDPOINT" ]; then
+            echo "::warning::No CDN secrets configured; skipping upload (dry run)."
+            ls -R ./dist
+            exit 0
+          fi
+          aws s3 cp ./dist/currents/ "s3://$R2_BUCKET/currents/" \
+            --recursive --endpoint-url "$R2_ENDPOINT" \
+            --cache-control "public, max-age=300, s-maxage=21600"
+
+      - name: Refresh the Actions schedule timer
+        # GitHub disables scheduled workflows after 60 days with no repository
+        # activity. A push to *any* branch counts, so we park the cycle stamp on
+        # a dedicated branch instead of the default branch: it keeps the clock
+        # alive and doubles as an audit trail of which cycles published, without
+        # dumping bot commits onto main and causing merge pain.
+        env:
+          STAMP_BRANCH: sscofs-cycle-stamp
+        run: |
+          mkdir -p currents
+          cp ./dist/currents/last_cycle.txt currents/last_cycle.txt
+          git add currents/last_cycle.txt
+          # --cached so this also fires the first time, when the file is still
+          # untracked (plain `git diff` ignores untracked files).
+          if git diff --cached --quiet -- currents/last_cycle.txt; then
+            echo "cycle stamp unchanged; nothing to commit"
+            exit 0
+          fi
+          git config user.name "sscofs-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -m "chore(sscofs): cycle $(cat currents/last_cycle.txt)"
+          # Force-push the single commit to its own branch; nobody merges this
+          # branch, so it never diverges and never needs reconciling with main.
+          git push --force origin "HEAD:refs/heads/$STAMP_BRANCH"

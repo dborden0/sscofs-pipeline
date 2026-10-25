@@ -1,0 +1,73 @@
+name: SSCOFS accuracy check
+
+# Score each published SSCOFS cycle against gauges and NOAA's current
+# predictions once its 72 forecast hours are over, and append the scores to
+# accuracy/sscofs.jsonl on the sscofs-accuracy branch. See tools/check_sscofs.py
+# and plans/sscofs-todo.md.
+
+on:
+  schedule:
+    # Once a day is enough: the script scores every finished cycle it has not
+    # scored yet, so a missed day catches up on the next run.
+    - cron: "30 13 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: sscofs-accuracy
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # only to push the log to the sscofs-accuracy branch
+    env:
+      LOG_BRANCH: sscofs-accuracy
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch the existing log
+        # The log lives on its own branch so these bot commits never touch main
+        # (a push to main can deploy). First run: the branch does not exist yet.
+        run: |
+          mkdir -p accuracy
+          if git fetch --no-prune --depth=1 origin "$LOG_BRANCH:refs/remotes/origin/$LOG_BRANCH"; then
+            echo "HAVE_LOG_BRANCH=1" >> "$GITHUB_ENV"
+            git show "origin/$LOG_BRANCH:accuracy/sscofs.jsonl" > accuracy/sscofs.jsonl
+          fi
+          wc -l accuracy/sscofs.jsonl || true
+
+      - name: Score finished cycles
+        # stdlib only; no pip install.
+        run: python tools/check_sscofs.py --log accuracy/sscofs.jsonl --days 7 --print
+
+      - name: Push the log
+        run: |
+          git config user.name "sscofs-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if [ ! -s accuracy/sscofs.jsonl ]; then
+            echo "nothing scored yet"
+            exit 0
+          fi
+          # Move it aside: an untracked copy would block checking out the branch.
+          mv accuracy/sscofs.jsonl "$RUNNER_TEMP/sscofs.jsonl"
+          if [ -n "$HAVE_LOG_BRANCH" ]; then
+            git checkout -q --detach "origin/$LOG_BRANCH"
+          else
+            # A branch holding only the log, with no history from main.
+            git checkout -q --orphan "$LOG_BRANCH"
+            git rm -rq --cached .
+          fi
+          mkdir -p accuracy
+          cp "$RUNNER_TEMP/sscofs.jsonl" accuracy/sscofs.jsonl
+          git add accuracy/sscofs.jsonl
+          if git diff --cached --quiet; then
+            echo "no new cycles scored"
+            exit 0
+          fi
+          git commit -qm "chore(sscofs): accuracy log, $(wc -l < accuracy/sscofs.jsonl) cycles"
+          git push origin "HEAD:refs/heads/$LOG_BRANCH"
