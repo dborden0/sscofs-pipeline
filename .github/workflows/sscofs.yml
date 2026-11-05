@@ -76,9 +76,15 @@ jobs:
           echo "  Access Key ID length: ${#AWS_ACCESS_KEY_ID} chars"
           echo "  Secret Access Key length: ${#AWS_SECRET_ACCESS_KEY} chars"
 
+          # Cycle-stamped files never change, so the edge may keep them 6 h.
           aws s3 cp ./dist/currents/ "s3://$R2_BUCKET/currents/" \
-            --recursive --endpoint-url "$R2_ENDPOINT" \
+            --recursive --exclude "latest.json" --endpoint-url "$R2_ENDPOINT" \
             --cache-control "public, max-age=300, s-maxage=21600"
+          # latest.json changes every publish and carries the NWS bar alerts,
+          # so keep the edge copy short: a new alert reaches phones in minutes.
+          aws s3 cp ./dist/currents/latest.json "s3://$R2_BUCKET/currents/latest.json" \
+            --endpoint-url "$R2_ENDPOINT" \
+            --cache-control "public, max-age=300, s-maxage=300"
 
       - name: Refresh the Actions schedule timer
         # GitHub disables scheduled workflows after 60 days with no repository

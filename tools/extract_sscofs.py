@@ -449,6 +449,8 @@ def main():
     ap.add_argument("--channel-points", default=DEFAULT_POINTS)
     ap.add_argument("--estuary-points", default=DEFAULT_ESTUARY,
                     help="salinity transect below the centerline; '' to skip")
+    ap.add_argument("--no-conditions", action="store_true",
+                    help="skip the wind / bar / gauge-temperature fetch")
     args = ap.parse_args()
 
     import numpy as np
@@ -564,6 +566,15 @@ def main():
             for i, p in enumerate(estuary)
         ],
     }
+
+    # Wind, the NWS bar forecast and gauge water temperatures (additive under
+    # schema 1). Best-effort: fetch_conditions() never raises, and a failure
+    # just leaves the key out. See tools/fetch_conditions.py.
+    if not args.no_conditions:
+        from fetch_conditions import fetch_conditions
+        conditions = fetch_conditions()
+        if conditions:
+            doc["conditions"] = conditions
 
     outdir = os.path.join(args.out, "currents")
     os.makedirs(outdir, exist_ok=True)

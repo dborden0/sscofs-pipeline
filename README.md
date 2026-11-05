@@ -7,8 +7,9 @@ Automated precompute pipeline for Columbia River surface currents from NOAA's Se
 1. **Scheduled Extraction** (`.github/workflows/sscofs.yml`):
    - Runs 4 times daily (00:50, 06:50, 12:50, 18:50 UTC).
    - Samples surface currents, temperature, and estuary salinity across centerline points (`tools/channel_points.json` and `tools/estuary_points.json`) using byte-range reads on NOAA's public S3 mirror (or OPeNDAP fallback).
-   - Formats a compact JSON file (`latest.json` and `<timestamp>.json`).
-   - Publishes directly to Cloudflare R2 / CDN.
+   - Adds a `conditions` block (`tools/fetch_conditions.py`; `--no-conditions` skips it): 72 h of NWS wind at 8 river points and the Columbia River Bar (PZZ210) alerts and forecast, both from NWS `api.weather.gov`, plus water temperature from NOAA CO-OPS and USGS (`api.waterdata.usgs.gov`) gauges. Best-effort: a failed fetch just leaves the key out and never blocks a publish.
+   - Formats a compact JSON file (`latest.json` and `<timestamp>.json`). `conditions` is additive under schema 1, so older apps ignore it.
+   - Publishes directly to Cloudflare R2 / CDN. `latest.json` gets a 5-minute edge cache (`s-maxage=300`) so a new bar alert reaches phones within minutes; the cycle-stamped files keep 6 h (`s-maxage=21600`).
    - Updates the `sscofs-cycle-stamp` branch to reset GitHub's 60-day scheduled workflow inactivity timer.
 
 2. **Daily Accuracy Check** (`.github/workflows/sscofs-accuracy.yml`):

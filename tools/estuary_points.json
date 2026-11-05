@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "verified": false,
+ "verified": true,
  "grid": {
   "lon0": -129.53,
   "lat0": 44.37,
@@ -8,7 +8,7 @@
   "nx": 1519,
   "ny": 1553
  },
- "spacingRm": 1.0,
+ "spacingMode": "waypoints",
  "maskSnapped": true,
  "points": [
   {
@@ -20,140 +20,132 @@
    "ix": 1093
   },
   {
-   "rm": 1.7,
+   "rm": 1.6,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25844,
-   "lon": -124.04096,
+   "lat": 46.25865,
+   "lon": -124.04266,
    "iy": 378,
-   "ix": 1098
+   "ix": 1097
   },
   {
-   "rm": 2.7,
+   "rm": 2.8,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25639,
-   "lon": -124.02401,
+   "lat": 46.25618,
+   "lon": -124.02231,
    "iy": 377,
-   "ix": 1101
+   "ix": 1102
   },
   {
-   "rm": 3.7,
+   "rm": 3.8,
    "name": "OSM ship-channel fairway",
-   "lat": 46.24854,
-   "lon": -124.00734,
+   "lat": 46.24769,
+   "lon": -124.00568,
    "iy": 376,
    "ix": 1105
   },
   {
-   "rm": 4.7,
+   "rm": 4.6,
    "name": "OSM ship-channel fairway",
-   "lat": 46.23611,
-   "lon": -123.98792,
-   "iy": 373,
+   "lat": 46.23775,
+   "lon": -123.99047,
+   "iy": 374,
    "ix": 1108
   },
   {
-   "rm": 5.7,
+   "rm": 5.2,
    "name": "OSM ship-channel fairway",
-   "lat": 46.20757,
-   "lon": -123.94375,
+   "lat": 46.22789,
+   "lon": -123.97516,
+   "iy": 372,
+   "ix": 1111
+  },
+  {
+   "rm": 5.4,
+   "name": "OSM ship-channel fairway",
+   "lat": 46.218,
+   "lon": -123.95988,
+   "iy": 370,
+   "ix": 1114
+  },
+  {
+   "rm": 5.5,
+   "name": "OSM ship-channel fairway",
+   "lat": 46.20812,
+   "lon": -123.9446,
    "iy": 368,
    "ix": 1117
   },
   {
-   "rm": 6.7,
+   "rm": 9.1,
    "name": "OSM ship-channel fairway",
-   "lat": 46.20483,
-   "lon": -123.93951,
-   "iy": 367,
-   "ix": 1118
-  },
-  {
-   "rm": 7.7,
-   "name": "OSM ship-channel fairway",
-   "lat": 46.20208,
-   "lon": -123.93526,
-   "iy": 366,
-   "ix": 1119
-  },
-  {
-   "rm": 8.7,
-   "name": "OSM ship-channel fairway",
-   "lat": 46.19934,
-   "lon": -123.93102,
+   "lat": 46.19824,
+   "lon": -123.92932,
    "iy": 366,
    "ix": 1120
   },
   {
-   "rm": 9.7,
+   "rm": 10.5,
    "name": "OSM ship-channel fairway",
-   "lat": 46.19489,
-   "lon": -123.92201,
-   "iy": 365,
-   "ix": 1122
-  },
-  {
-   "rm": 10.7,
-   "name": "OSM ship-channel fairway",
-   "lat": 46.19041,
-   "lon": -123.90932,
+   "lat": 46.19043,
+   "lon": -123.91227,
    "iy": 364,
    "ix": 1124
   },
   {
-   "rm": 11.7,
+   "rm": 11.9,
    "name": "OSM ship-channel fairway",
-   "lat": 46.19034,
-   "lon": -123.89455,
+   "lat": 46.19032,
+   "lon": -123.8916,
    "iy": 364,
-   "ix": 1127
+   "ix": 1128
   },
   {
-   "rm": 12.7,
+   "rm": 13.4,
    "name": "OSM ship-channel fairway",
-   "lat": 46.19123,
-   "lon": -123.88053,
+   "lat": 46.19203,
+   "lon": -123.87084,
    "iy": 364,
-   "ix": 1130
+   "ix": 1132
   },
   {
-   "rm": 13.7,
+   "rm": 14.9,
    "name": "OSM ship-channel fairway",
-   "lat": 46.19237,
-   "lon": -123.86669,
-   "iy": 364,
-   "ix": 1133
-  },
-  {
-   "rm": 14.7,
-   "name": "OSM ship-channel fairway",
-   "lat": 46.19349,
-   "lon": -123.85284,
+   "lat": 46.19372,
+   "lon": -123.85007,
    "iy": 365,
-   "ix": 1135
+   "ix": 1136
   },
   {
-   "rm": 15.7,
+   "rm": 15.6,
    "name": "OSM ship-channel fairway",
-   "lat": 46.1959,
-   "lon": -123.8269,
+   "lat": 46.19515,
+   "lon": -123.82927,
    "iy": 365,
-   "ix": 1141
+   "ix": 1140
   },
   {
-   "rm": 16.7,
+   "rm": 16.4,
    "name": "OSM ship-channel fairway",
-   "lat": 46.20377,
-   "lon": -123.80347,
-   "iy": 367,
-   "ix": 1145
+   "lat": 46.20117,
+   "lon": -123.81035,
+   "iy": 366,
+   "ix": 1144
   },
   {
-   "rm": 17.7,
+   "rm": 17.2,
    "name": "OSM ship-channel fairway",
-   "lat": 46.21244,
-   "lon": -123.78051,
+   "lat": 46.20811,
+   "lon": -123.79199,
    "iy": 368,
-   "ix": 1150
+   "ix": 1148
+  },
+  {
+   "rm": 18.0,
+   "name": "OSM ship-channel fairway",
+   "lat": 46.21504,
+   "lon": -123.77363,
+   "iy": 369,
+   "ix": 1151
   },
   {
    "rm": 18.7,
@@ -164,59 +156,66 @@
    "ix": 1155
   },
   {
-   "rm": 19.7,
+   "rm": 19.5,
    "name": "OSM ship-channel fairway",
-   "lat": 46.2287,
-   "lon": -123.73107,
-   "iy": 372,
-   "ix": 1160
+   "lat": 46.22667,
+   "lon": -123.73538,
+   "iy": 371,
+   "ix": 1159
   },
   {
-   "rm": 20.7,
+   "rm": 20.3,
    "name": "OSM ship-channel fairway",
-   "lat": 46.2397,
-   "lon": -123.70848,
-   "iy": 374,
-   "ix": 1164
+   "lat": 46.23481,
+   "lon": -123.71812,
+   "iy": 373,
+   "ix": 1162
   },
   {
-   "rm": 21.7,
+   "rm": 21.0,
    "name": "OSM ship-channel fairway",
-   "lat": 46.24983,
-   "lon": -123.68568,
+   "lat": 46.24337,
+   "lon": -123.70125,
+   "iy": 375,
+   "ix": 1166
+  },
+  {
+   "rm": 21.8,
+   "name": "OSM ship-channel fairway",
+   "lat": 46.25075,
+   "lon": -123.68346,
    "iy": 376,
    "ix": 1169
   },
   {
-   "rm": 22.7,
+   "rm": 22.4,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25727,
-   "lon": -123.65514,
-   "iy": 376,
-   "ix": 1175,
-   "snappedCells": 1
+   "lat": 46.25561,
+   "lon": -123.66375,
+   "iy": 377,
+   "ix": 1173
   },
   {
-   "rm": 23.7,
+   "rm": 23.1,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25884,
-   "lon": -123.63326,
+   "lat": 46.25948,
+   "lon": -123.64367,
    "iy": 378,
-   "ix": 1179
+   "ix": 1177
   },
   {
-   "rm": 24.7,
+   "rm": 24.3,
    "name": "OSM ship-channel fairway",
-   "lat": 46.2577,
-   "lon": -123.6159,
+   "lat": 46.25819,
+   "lon": -123.62284,
    "iy": 378,
-   "ix": 1183
+   "ix": 1181
   },
   {
-   "rm": 25.7,
+   "rm": 25.5,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25653,
-   "lon": -123.59855,
+   "lat": 46.25673,
+   "lon": -123.60202,
    "iy": 377,
    "ix": 1186
   },
@@ -229,42 +228,34 @@
    "ix": 1190
   },
   {
-   "rm": 27.7,
+   "rm": 27.9,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25686,
-   "lon": -123.56385,
+   "lat": 46.25712,
+   "lon": -123.56039,
    "iy": 377,
-   "ix": 1193
+   "ix": 1194
   },
   {
-   "rm": 28.7,
+   "rm": 29.1,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25872,
-   "lon": -123.54669,
+   "lat": 46.25952,
+   "lon": -123.53984,
    "iy": 378,
-   "ix": 1197
+   "ix": 1198
   },
   {
-   "rm": 29.7,
+   "rm": 30.3,
    "name": "OSM ship-channel fairway",
-   "lat": 46.26232,
-   "lon": -123.53019,
-   "iy": 378,
-   "ix": 1200
-  },
-  {
-   "rm": 30.7,
-   "name": "OSM ship-channel fairway",
-   "lat": 46.26701,
-   "lon": -123.51412,
+   "lat": 46.26512,
+   "lon": -123.52054,
    "iy": 379,
-   "ix": 1203
+   "ix": 1202
   },
   {
-   "rm": 31.7,
+   "rm": 31.5,
    "name": "OSM ship-channel fairway",
-   "lat": 46.27093,
-   "lon": -123.49782,
+   "lat": 46.2708,
+   "lon": -123.50128,
    "iy": 380,
    "ix": 1206
   },
@@ -277,18 +268,18 @@
    "ix": 1210
   },
   {
-   "rm": 33.7,
+   "rm": 33.8,
    "name": "OSM ship-channel fairway",
-   "lat": 46.26606,
-   "lon": -123.46349,
+   "lat": 46.26551,
+   "lon": -123.46179,
    "iy": 379,
-   "ix": 1213
+   "ix": 1214
   },
   {
-   "rm": 34.7,
+   "rm": 34.8,
    "name": "OSM ship-channel fairway",
-   "lat": 46.25577,
-   "lon": -123.44936,
+   "lat": 46.25469,
+   "lon": -123.44798,
    "iy": 377,
    "ix": 1216
   },
@@ -301,11 +292,19 @@
    "ix": 1219
   },
   {
-   "rm": 36.7,
+   "rm": 36.6,
    "name": "OSM ship-channel fairway",
-   "lat": 46.22857,
-   "lon": -123.42703,
+   "lat": 46.23035,
+   "lon": -123.42737,
    "iy": 372,
+   "ix": 1221
+  },
+  {
+   "rm": 37.4,
+   "name": "OSM ship-channel fairway",
+   "lat": 46.21612,
+   "lon": -123.42467,
+   "iy": 369,
    "ix": 1221
   }
  ]
